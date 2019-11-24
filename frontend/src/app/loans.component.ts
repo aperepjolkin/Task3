@@ -39,7 +39,7 @@ export class LoansComponent {
         //LoanId: valueInput,
         LoanBalance:newValue,
         lenderId: this.lenderId.nativeElement.value,
-        borrowerId: this.borrowerId.
+        borrowerId: this.borrowerId.nativeElement.value
       };
 
       console.log(this.loanChange)
