@@ -12,7 +12,7 @@ using LoansBackend.Models;
 namespace LoansBackend.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Loans")]
+    [Route("api/[controller]/[action]")]
     public class LoansController : Controller
     {
         private readonly ILoanRepository _loanRepository;
@@ -59,6 +59,15 @@ namespace LoansBackend.Controllers
             return result;
         }
 
+        [HttpPost]
+        public Models.LoanViewModel PostLoanChanges([FromBody] Models.Loan loan)
+        {
+           // _loanRepository.Update(loan);
+            _loanRepository.Insert(loan);
+            _loanRepository.Save();
+            var result = _loanRepository.GetLoanById(loan.LoanId);
+            return result;
+        }
         // PUT api/<controller>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)

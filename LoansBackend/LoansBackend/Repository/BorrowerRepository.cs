@@ -32,7 +32,7 @@ namespace LoansBackend.Repository
 
         public Borrower GetById(int borrowerId)
         {
-            throw new NotImplementedException();
+           return _context.Borrowers.Find(borrowerId);
         }
 
         public void Insert(Borrower borrower)

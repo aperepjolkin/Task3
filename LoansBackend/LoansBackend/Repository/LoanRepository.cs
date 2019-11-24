@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using LoansBackend.Models;
 using LoansBackend.Context;
+using Microsoft.EntityFrameworkCore;
+using MoreLinq;
 
 namespace LoansBackend.Repository
 {
@@ -46,20 +48,23 @@ namespace LoansBackend.Repository
         public IEnumerable<LoanViewModel> GetLoans()
         {
             var result = from loans in _context.Loans
-            from lenders in _context.Lenders
-            from borrowers in _context.Borrowers
-            where loans.BorrowerId == borrowers.Id && lenders.Id == loans.LenderId
+                         from lenders in _context.Lenders
+                         from borrowers in _context.Borrowers
+                        where loans.BorrowerId == borrowers.Id 
+                        && lenders.Id == loans.LenderId
             select new LoanViewModel
             {
                 LenderName = lenders.Name,
                 BorrowerName = borrowers.Name,
                 LoanBalance = loans.LoanBalance,
                 Created = loans.Created.ToShortDateString(),
-                Id = loans.LoanId
+                Id = loans.LoanId,
+                lenderId = loans.LenderId,
+                borrowerId = loans.BorrowerId
 
             };
 
-            return result;
+            return result.ToList();
         }
         public LoanViewModel GetLoanById(int loanId)
         {
@@ -73,7 +78,9 @@ namespace LoansBackend.Repository
                              BorrowerName = borrowers.Name,
                              LoanBalance = loans.LoanBalance,
                              Created = loans.Created.ToShortDateString(),
-                             Id = loans.LoanId
+                             Id = loans.LoanId,
+                             lenderId = lenders.Id,
+                             borrowerId = borrowers.Id
 
                          };
 
@@ -97,7 +104,7 @@ namespace LoansBackend.Repository
 
         public void Update(Loan loan)
         {
-            throw new NotImplementedException();
+            _context.Entry(loan).State = EntityState.Modified;
         }
 
 

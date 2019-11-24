@@ -36,8 +36,21 @@ namespace LoansBackend.Controllers
             return highestLender;
 
         }
-        
 
+        [HttpGet]
+        public Models.Borrower MostHigherBorrower()
+        {
+            var highestBorrower = _reportsService.GetMostHighestBorrower();
+            return highestBorrower;
+
+        }
+        [HttpGet]
+        public decimal AverageLoan()
+        {
+            var averageLoan = _reportsService.GetAverageLoan();
+            return averageLoan;
+
+        }
         // POST api/<controller>
         [HttpPost]
         public void Post([FromBody]string value)

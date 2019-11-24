@@ -9,5 +9,7 @@ namespace LoansBackend.Services
     public interface IReportsService
     {
         Lender GetMostHighestLender();
+        Borrower GetMostHighestBorrower();
+        decimal GetAverageLoan();
     }
 }

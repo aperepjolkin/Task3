@@ -44,12 +44,13 @@ export class NewLoanComponent {
   
     loan = {
         BorrowerId: "", 
-        LenderId: "", 
+        lenderId: "", 
         LoanBalance: "", 
         Created: ""
     }
 
     post() {
+        console.log(this.loan);
       this.webService.postLoan(this.loan);
       
     }
@@ -72,6 +73,6 @@ export class NewLoanComponent {
         console.log(newValue);
         this.selectedLender = newValue;
         // ... do other stuff here ...
-        this.loan.LenderId = newValue;
+        this.loan.lenderId = newValue;
     }
 }

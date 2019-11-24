@@ -9,12 +9,16 @@ namespace LoansBackend.Services
     public class ReportsService : IReportsService
     {
         private readonly IReportsRepository _reportsRepository;
-        private readonly ILenderRepository _landerRepository;
+        private readonly ILenderRepository _lenderRepository;
+        private readonly IBorrowerRepository _borrowerRepository;
 
-        public ReportsService(IReportsRepository reportsRepository, ILenderRepository lenderRepository)
+        public ReportsService(IReportsRepository reportsRepository, 
+                              ILenderRepository lenderRepository,
+                              IBorrowerRepository borrowerRepository)
         {
             _reportsRepository = reportsRepository;
-            _landerRepository = lenderRepository;
+            _lenderRepository = lenderRepository;
+            _borrowerRepository = borrowerRepository;
         }
 
         public Lender GetMostHighestLender() {
@@ -25,12 +29,42 @@ namespace LoansBackend.Services
                 Balance = 0
             };
             if (maxLoan != null) {
-                maxLender = _landerRepository.GetById(maxLoan.LenderId);
+                maxLender = _lenderRepository.GetById(maxLoan.LenderId);
                 maxLender.Balance = maxLoan.LoanBalance;
             }
            
             
             return maxLender;
+        }
+        public Borrower GetMostHighestBorrower()
+        {
+            var allLoans = _reportsRepository.GetAll();
+            Loan maxLoan = allLoans.MaxBy(loan => loan.LoanBalance).FirstOrDefault();
+            Borrower maxBorrower = new Borrower()
+            {
+                Name = "",
+                Balance = 0
+            };
+            if (maxLoan != null)
+            {
+                maxBorrower = _borrowerRepository.GetById(maxLoan.BorrowerId);
+                maxBorrower.Balance = maxLoan.LoanBalance;
+            }
+
+
+            return maxBorrower;
+        }
+
+        public decimal GetAverageLoan()
+        {
+            var allLoans = _reportsRepository.GetAll();
+            var allLenders = _lenderRepository.GetAll();
+            var result = from loan in allLoans
+                         from lenders in allLenders
+                         where loan.LenderId == lenders.Id
+                         select loan;
+            decimal averageLoan = result.Average(x => x.LoanBalance);
+            return averageLoan;
         }
     }
 }
