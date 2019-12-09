@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LoansBackend.Models
+namespace LoansBackend.ViewModels
 {
     public class LoanViewModel
     {
-        public int Id { get; set; }
-        public int lenderId { get; set; }
+      
+        public int LenderId { get; set; }
 
         //public ICollection<Borrower> Borrowers { get; set; }
-        public int borrowerId { get; set; }
+        public int BorrowerId { get; set; }
         public string LenderName { get; set; }
 
         //public ICollection<Borrower> Borrowers { get; set; }

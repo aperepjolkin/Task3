@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using LoansBackend.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,10 +15,12 @@ namespace LoansBackend.Controllers
     public class BorrowersController : Controller
     {
         private readonly IBorrowerRepository _borrowerRepository;
+        private readonly IMapper _mapper;
 
-        public BorrowersController(IBorrowerRepository borrowerRepository)
+        public BorrowersController(IBorrowerRepository borrowerRepository, IMapper mapper)
         {
             _borrowerRepository = borrowerRepository;
+            _mapper = mapper;
         }
         // GET: api/<controller>
         [HttpGet]

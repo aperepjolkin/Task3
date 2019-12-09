@@ -5,6 +5,7 @@ using LoansBackend.Models;
 using LoansBackend.Context;
 using Microsoft.EntityFrameworkCore;
 using MoreLinq;
+using LoansBackend.ViewModels;
 
 namespace LoansBackend.Repository
 {
@@ -58,9 +59,9 @@ namespace LoansBackend.Repository
                 BorrowerName = borrowers.Name,
                 LoanBalance = loans.LoanBalance,
                 Created = loans.Created.ToShortDateString(),
-                Id = loans.LoanId,
-                lenderId = loans.LenderId,
-                borrowerId = loans.BorrowerId
+               
+                LenderId = loans.LenderId,
+                BorrowerId = loans.BorrowerId
 
             };
 
@@ -78,9 +79,8 @@ namespace LoansBackend.Repository
                              BorrowerName = borrowers.Name,
                              LoanBalance = loans.LoanBalance,
                              Created = loans.Created.ToShortDateString(),
-                             Id = loans.LoanId,
-                             lenderId = lenders.Id,
-                             borrowerId = borrowers.Id
+                             LenderId = lenders.Id,
+                             BorrowerId = borrowers.Id
 
                          };
 

@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using LoansBackend.Repository;
 using LoansBackend.Context;
 using LoansBackend.Models;
+using LoansBackend.ViewModels;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,13 +19,15 @@ namespace LoansBackend.Controllers
     public class LoansController : Controller
     {
         private readonly ILoanRepository _loanRepository;
-       
-        public LoansController(ILoanRepository loanRepository) {
+        private readonly IMapper _mapper;
+
+        public LoansController(ILoanRepository loanRepository, IMapper mapper) {
             _loanRepository = loanRepository;
+            _mapper = mapper;
         }
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<Models.LoanViewModel> Get()
+        public IEnumerable<ViewModels.LoanViewModel> Get()
         {
             //return new Models.Loan[] {
             //    new Models.Loan {
@@ -38,7 +43,8 @@ namespace LoansBackend.Controllers
 
             //};
             var allLoans = _loanRepository.GetLoans();
-            return allLoans;
+            //return allLoans;
+            return _mapper.Map<IEnumerable<LoanViewModel>>(allLoans);
             //return _loanRepository.GetAll();
         }
 
@@ -51,22 +57,25 @@ namespace LoansBackend.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public Models.LoanViewModel Post([FromBody] Models.Loan loan)
+        public ViewModels.LoanViewModel Post([FromBody] LoanViewModel loanViewModel)
         {
+            var loan = _mapper.Map<Loan>(loanViewModel);
             _loanRepository.Insert(loan);
             _loanRepository.Save();
             var result = _loanRepository.GetLoanById(loan.LoanId);
-            return result;
+            return null;
+            //return result;
         }
 
         [HttpPost]
-        public Models.LoanViewModel PostLoanChanges([FromBody] Models.Loan loan)
+        public ViewModels.LoanViewModel PostLoanChanges([FromBody] Models.Loan loan)
         {
            // _loanRepository.Update(loan);
             _loanRepository.Insert(loan);
             _loanRepository.Save();
             var result = _loanRepository.GetLoanById(loan.LoanId);
-            return result;
+            return null;
+            //return result;
         }
         // PUT api/<controller>/5
         [HttpPut("{id}")]
