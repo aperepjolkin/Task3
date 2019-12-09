@@ -8,6 +8,7 @@ namespace LoansBackend.Models
     public class Borrower : Person
     {
 
+        public ICollection<Loan> Loans { get; set; }
         public void BorromMoney() {
 
         }  

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LoansBackend.ViewModels;
 using LoansBackend.Models;
 
 namespace LoansBackend.Repository

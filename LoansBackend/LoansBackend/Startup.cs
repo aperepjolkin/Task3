@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using LoansBackend.Context;
 using LoansBackend.Repository;
 using LoansBackend.Services;
+using LoansBackend.Utility.Profile;
 
 namespace LoansBackend
 {
@@ -45,6 +46,10 @@ namespace LoansBackend
             services.AddScoped<ILenderRepository, LenderRepository>();
             services.AddScoped<IReportsRepository, ReportsRepository>();
             services.AddScoped<IReportsService, ReportsService>();
+
+            var config = new AutoMapper.MapperConfiguration(c => c.AddProfile(new ApplicationProfile()));
+            var mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
